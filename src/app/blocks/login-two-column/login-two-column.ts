@@ -1,13 +1,20 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, isDevMode, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideHandCoins } from '@ng-icons/lucide';
+import { HeroBento } from './heroes/hero-bento';
+import { HeroEditorial } from './heroes/hero-editorial';
+import { HeroOrbita } from './heroes/hero-orbita';
+import { matchMediaSignal } from './heroes/hero-shared';
+import { HeroTarjetas } from './heroes/hero-tarjetas';
 import { LoginForm } from './login-form';
-import { LoginHero } from './login-hero';
+
+const VARIANTS = ['tarjetas', 'orbita', 'bento', 'editorial'] as const;
+type HeroVariant = (typeof VARIANTS)[number];
 
 @Component({
 	selector: 'spartan-login-two-column',
-	imports: [RouterLink, LoginForm, LoginHero, NgIcon],
+	imports: [RouterLink, LoginForm, NgIcon, HeroTarjetas, HeroOrbita, HeroBento, HeroEditorial],
 	providers: [provideIcons({ lucideHandCoins })],
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,9 +39,44 @@ import { LoginHero } from './login-hero';
 				</div>
 			</div>
 			<div class="relative hidden bg-violet-950 lg:block">
-				<app-login-hero />
+				@if (desktop()) {
+					@switch (variant()) {
+						@case ('orbita') {
+							<app-hero-orbita />
+						}
+						@case ('bento') {
+							<app-hero-bento />
+						}
+						@case ('editorial') {
+							<app-hero-editorial />
+						}
+						@default {
+							<app-hero-tarjetas />
+						}
+					}
+				}
 			</div>
 		</div>
+		@if (devMode) {
+			<nav class="fixed right-4 bottom-4 z-50 hidden gap-1 rounded-full bg-black/75 p-1 text-xs text-white shadow-lg backdrop-blur lg:flex" aria-label="Variantes del hero (solo desarrollo)">
+				@for (v of variants; track v) {
+					<a
+						routerLink="."
+						[queryParams]="{ hero: v }"
+						class="rounded-full px-3 py-1.5 capitalize hover:bg-white/15"
+						[class.bg-white]="variant() === v"
+						[class.text-black]="variant() === v"
+					>{{ v }}</a>
+				}
+			</nav>
+		}
 	`,
 })
-export default class LoginTwoColumnPage {}
+export default class LoginTwoColumnPage {
+	/** Variante del panel visual, vía ?hero=. Sirve para comparar propuestas de diseño. */
+	public readonly hero = input<string>('tarjetas');
+	protected readonly variants = VARIANTS;
+	protected readonly variant = computed<HeroVariant>(() => VARIANTS.find((v) => v === this.hero()) ?? 'tarjetas');
+	protected readonly desktop = matchMediaSignal('(min-width: 1024px)');
+	protected readonly devMode = isDevMode();
+}
