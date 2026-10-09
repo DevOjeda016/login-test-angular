@@ -186,17 +186,6 @@ out.beneficios = lottie('beneficios', [
   ], { p: [48, 67, 0] }),
 ]);
 
-// Capa ambiental: destellos que parpadean sobre la imagen.
-const SPARKS = [[70, 90, 0, 1.8], [330, 70, 25, 1.2], [200, 150, 50, 2.2], [60, 250, 70, 1.4], [340, 290, 15, 2], [150, 360, 40, 1.1], [280, 200, 85, 1.5]];
-out.destellos = lottie('destellos', SPARKS.map(([x, y, t0, sc], n) => {
-  const peak = Math.round(sc * 100);
-  return layer(`destello-${n}`, [grp('s', [star(8, 2), fill(90)])], {
-    p: [x, y, 0],
-    s: kf([[0, [0, 0, 100]], [t0, [0, 0, 100]], [t0 + 20, [peak, peak, 100]], [t0 + 40, [0, 0, 100]], [120, [0, 0, 100]]]),
-    r: kf([[0, 0], [120, 90]], LINEAR),
-  });
-}), 400, 120);
-
 mkdirSync(OUT, { recursive: true });
 for (const [name, data] of Object.entries(out)) {
   writeFileSync(new URL(`${name}.json`, OUT), JSON.stringify(data));
