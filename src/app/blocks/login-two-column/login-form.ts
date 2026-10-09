@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { email, form, FormField, FormRoot, minLength, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { remixGithubFill } from '@ng-icons/remixicon';
+import { lucideKeyRound } from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmFieldImports } from '@spartan-ng/helm/field';
 import { HlmInputImports } from '@spartan-ng/helm/input';
@@ -10,27 +10,27 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 @Component({
 	selector: 'spartan-two-column-login-form',
 	imports: [FormRoot, FormField, RouterLink, HlmFieldImports, HlmInputImports, HlmButtonImports, NgIcon],
-	providers: [provideIcons({ remixGithubFill })],
+	providers: [provideIcons({ lucideKeyRound })],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
 		<form [formRoot]="form">
 			<hlm-field-group>
 				<div class="flex flex-col items-center gap-1 text-center">
-					<h1 class="text-2xl font-bold">Login to your account</h1>
-					<p class="text-muted-foreground text-sm text-balance">Enter your email below to login to your account</p>
+					<h1 class="text-2xl font-bold">Inicia sesión en tu cuenta</h1>
+					<p class="text-muted-foreground text-sm text-balance">Ingresa tu correo para acceder al portal</p>
 				</div>
 				<hlm-field>
-					<label hlmFieldLabel for="email">Email</label>
-					<input hlmInput type="email" id="email" placeholder="m@example.com" [formField]="form.email" />
+					<label hlmFieldLabel for="email">Correo electrónico</label>
+					<input hlmInput type="email" id="email" placeholder="nombre@empresa.com" [formField]="form.email" />
 					@for (error of form.email().errors(); track error) {
 						<hlm-field-error [validator]="error.kind">{{ error.message }}</hlm-field-error>
 					}
 				</hlm-field>
 				<hlm-field>
 					<div class="flex items-center">
-						<label hlmFieldLabel for="password">Password</label>
+						<label hlmFieldLabel for="password">Contraseña</label>
 						<a hlmFieldDescription class="ml-auto text-sm underline-offset-4 hover:underline" routerLink=".">
-							Forgot password?
+							¿Olvidaste tu contraseña?
 						</a>
 					</div>
 					<input hlmInput type="password" id="password" [formField]="form.password" />
@@ -39,17 +39,17 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 					}
 				</hlm-field>
 				<hlm-field>
-					<button hlmBtn type="submit" [disabled]="form().submitting()">Login</button>
+					<button hlmBtn type="submit" [disabled]="form().submitting()">Iniciar sesión</button>
 				</hlm-field>
-				<hlm-field-separator>Or continue with</hlm-field-separator>
+				<hlm-field-separator>O continúa con</hlm-field-separator>
 				<hlm-field>
 					<button hlmBtn variant="outline" type="button">
-						<ng-icon name="remixGithubFill" class="text-xl" />
-						Login with GitHub
+						<ng-icon name="lucideKeyRound" class="text-xl" />
+						Ingresar con SSO corporativo
 					</button>
 					<p hlmFieldDescription class="text-center">
-						Don't have an account?
-						<a routerLink=".">Sign up</a>
+						¿Necesitas ayuda para acceder?
+						<a routerLink=".">Contacta a Recursos Humanos</a>
 					</p>
 				</hlm-field>
 			</hlm-field-group>
@@ -65,10 +65,10 @@ export class LoginForm {
 	public readonly form = form(
 		this._model,
 		(schemaPath) => {
-			required(schemaPath.email, { message: 'Email is required.' });
-			email(schemaPath.email, { message: 'Enter a valid email address.' });
-			required(schemaPath.password, { message: 'Password is required.' });
-			minLength(schemaPath.password, 8, { message: 'Password must be at least 8 characters long.' });
+			required(schemaPath.email, { message: 'El correo es obligatorio.' });
+			email(schemaPath.email, { message: 'Ingresa un correo válido.' });
+			required(schemaPath.password, { message: 'La contraseña es obligatoria.' });
+			minLength(schemaPath.password, 8, { message: 'La contraseña debe tener al menos 8 caracteres.' });
 		},
 		{
 			submission: {

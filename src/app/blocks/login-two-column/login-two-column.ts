@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideGalleryVerticalEnd } from '@ng-icons/lucide';
+import { lucideHandCoins } from '@ng-icons/lucide';
 import { LoginForm } from './login-form';
+import { LoginHero } from './login-hero';
 
 @Component({
 	selector: 'spartan-login-two-column',
-	imports: [RouterLink, LoginForm, NgIcon],
-	providers: [provideIcons({ lucideGalleryVerticalEnd })],
+	imports: [RouterLink, LoginForm, LoginHero, NgIcon],
+	providers: [provideIcons({ lucideHandCoins })],
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	host: {
@@ -19,9 +20,9 @@ import { LoginForm } from './login-form';
 				<div class="flex justify-center gap-2 md:justify-start">
 					<a routerLink="." class="flex items-center gap-2 font-medium">
 						<div class="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-							<ng-icon name="lucideGalleryVerticalEnd" class="text-base" />
+							<ng-icon name="lucideHandCoins" class="text-base" />
 						</div>
-						Acme Inc.
+						Portal del Colaborador
 					</a>
 				</div>
 				<div class="flex flex-1 items-center justify-center">
@@ -30,12 +31,8 @@ import { LoginForm } from './login-form';
 					</div>
 				</div>
 			</div>
-			<div class="bg-muted relative hidden lg:block">
-				<img
-					src="https://images.unsplash.com/photo-1604076850742-4c7221f3101b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-					alt="Image"
-					class="absolute inset-0 h-full w-full object-cover brightness-60 grayscale dark:brightness-[0.2] dark:grayscale"
-				/>
+			<div class="relative hidden bg-violet-950 lg:block">
+				<app-login-hero />
 			</div>
 		</div>
 	`,
