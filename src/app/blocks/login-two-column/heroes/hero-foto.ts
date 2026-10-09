@@ -1,7 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideHandCoins } from '@ng-icons/lucide';
 import { LottieComponent } from 'ngx-lottie';
 import { createCarousel, freezeIfReduced, lottieOptions, moduleByFile } from './hero-shared';
 
@@ -35,8 +33,7 @@ const SLIDES = [
  */
 @Component({
   selector: 'app-hero-foto',
-  imports: [NgOptimizedImage, LottieComponent, NgIcon],
-  providers: [provideIcons({ lucideHandCoins })],
+  imports: [NgOptimizedImage, LottieComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'absolute inset-0 block overflow-hidden bg-black' },
   styles: `
@@ -75,11 +72,7 @@ const SLIDES = [
     <div class="absolute inset-0 bg-linear-to-t from-violet-950/50 via-transparent to-transparent"></div>
 
     <div class="relative flex h-full flex-col justify-between p-8 text-white xl:p-12">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2.5 font-medium">
-          <ng-icon name="lucideHandCoins" class="text-2xl" />
-          Portal del Colaborador
-        </div>
+      <div class="flex justify-end">
         <div class="flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 py-1.5 pr-4 pl-1.5 backdrop-blur-md" aria-hidden="true">
           <span class="flex size-9 items-center justify-center rounded-full transition-colors duration-700" [style.background]="'var(' + slides[index()].module.color + ')'">
             @for (s of [slides[index()]]; track s.module.file) {

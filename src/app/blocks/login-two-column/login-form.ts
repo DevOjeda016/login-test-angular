@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { email, form, FormField, FormRoot, minLength, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -13,7 +13,7 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 	providers: [provideIcons({ lucideKeyRound })],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
-		<form [formRoot]="form" [class]="pill() ? pillClasses : ''">
+		<form [formRoot]="form">
 			<hlm-field-group>
 				<div class="flex flex-col items-center gap-1 text-center">
 					<h1 class="text-2xl font-bold">Inicia sesión en tu cuenta</h1>
@@ -57,11 +57,6 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 	`,
 })
 export class LoginForm {
-	/** Botones e inputs en forma de píldora. */
-	public readonly pill = input(false);
-	protected readonly pillClasses =
-		'[&_button]:rounded-full [&_input]:rounded-full [&_input]:border-transparent [&_input]:bg-muted/70 [&_input]:px-5 [&_button]:h-11';
-
 	protected readonly _model = signal({
 		email: '',
 		password: '',
