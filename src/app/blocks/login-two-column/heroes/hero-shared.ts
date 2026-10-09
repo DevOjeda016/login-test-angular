@@ -24,6 +24,8 @@ export const HERO_MODULES: readonly HeroModule[] = [
   { label: 'Beneficios', file: 'beneficios', color: '--module-beneficios', hint: 'Todo lo que tienes', still: 0 },
 ];
 
+export const moduleByFile = (file: string): HeroModule => HERO_MODULES.find((m) => m.file === file)!;
+
 export const prefersReducedMotion = (): boolean =>
   typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -55,4 +57,28 @@ export function matchMediaSignal(query: string): Signal<boolean> {
   mql.addEventListener('change', onChange);
   inject(DestroyRef).onDestroy(() => mql.removeEventListener('change', onChange));
   return state;
+}
+
+/**
+ * Carrusel automático: avanza solo (salvo con movimiento reducido) y reinicia el reloj al elegir manualmente.
+ * Llamar en contexto de inyección.
+ */
+export function createCarousel(count: number, ms = 6000) {
+  const index = signal(0);
+  let timer: ReturnType<typeof setInterval> | undefined;
+  const start = () => {
+    clearInterval(timer);
+    if (typeof window === 'undefined' || prefersReducedMotion()) return;
+    timer = setInterval(() => index.update((i) => (i + 1) % count), ms);
+  };
+  start();
+  inject(DestroyRef).onDestroy(() => clearInterval(timer));
+  return {
+    index,
+    ms,
+    select: (i: number) => {
+      index.set(i);
+      start();
+    },
+  };
 }
